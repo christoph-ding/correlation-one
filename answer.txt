@@ -17,3 +17,9 @@ Part II
 
 6.  Does "net" mean "gross"?  I did not see the word "net" anywhere in that data, so I am using "gross".
 
+
+
+
+14.   Str methods exclude missing/NA values automatically.
+
+15.
