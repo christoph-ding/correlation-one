@@ -1,0 +1,19 @@
+Part I
+
+1.    The code should be:
+  data = [(row['RECORD_CREATION_DATE'], float(row['LOAN_AMOUNT'])) for row  in reader]
+
+2.    This was the only way I could get it work:
+  print data[(data.index( max( data, key = lambda (row): row[1] ) ) - 1)][0][0]
+
+3.    My code works even if the data is not sorted.
+
+4.
+
+
+Part II
+5.    The code should be:
+    df["entry_recorded"] =  pd.to_datetime(df["RECORD_CREATION_DATE"], format='%d%b%Y:%H:%M:%S.%f')
+
+6.  Does "net" mean "gross"?  I did not see the word "net" anywhere in that data, so I am using "gross".
+
