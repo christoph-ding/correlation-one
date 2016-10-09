@@ -23,3 +23,32 @@ Part II
 14.   Str methods exclude missing/NA values automatically.
 
 15.
+    df['time_delta'] = (df['entry_recorded']-df['entry_recorded'].shift()).fillna(0)
+
+    print(df['time_delta'].mean())
+
+    01:06:50.613875
+
+16.
+
+    df[df['OFFICE_LOCATION'] == 'NORTHERN CALIFORNIA']['RECORD_CREATION_DATE'].count() + df[df['OFFICE_LOCATION'] == 'SOUTHERN CALIFORNIA']['RECORD_CREATION_DATE'].count()
+    3811
+
+17.
+
+    print( (8000 - df['monthly_income'].count()) / 8000 )
+
+    ~ 48%
+
+18.
+    s_cat = s.astype("category", categories=["b","c","d"], ordered=False)
+
+    I would use fillna.
+
+19.
+
+
+20.  Area-under-the-curve metric for determining if a model is 'useful'.  Consider a solution space which represents all possible predictions.
+     The area-under-the-curve are true positives, the area above the curve is false positives.  The more true positives your model gets (and thus more AUC), the better your model.
+
+21.

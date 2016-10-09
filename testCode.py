@@ -29,8 +29,15 @@ df["debt"] = df["EXISTING_DEBT"].fillna('0').str.replace(',','').apply(lambda x:
 # grouped_df has the (1) count and (2) average loan amount of grouping the records by OFFICE_LOCATION (first) and by CREDIT_RANGE (second)
 grouped_df  =  df.groupby(['OFFICE_LOCATION', 'CREDIT_RANGE']).agg([np.count_nonzero, np.mean])
 
-# print(df)
-print(grouped_df)
+df['time_delta'] = (df['entry_recorded']-df['entry_recorded'].shift()).fillna(0)
+
+# print(df.groupby('OFFICE_LOCATION').count())
+
+# print(df[df['OFFICE_LOCATION'] == 'NORTHERN CALIFORNIA']['RECORD_CREATION_DATE'].count() + df[df['OFFICE_LOCATION'] == 'SOUTHERN CALIFORNIA']['RECORD_CREATION_DATE'].count())
+
+print(df)
+
+print( (8000 - df['monthly_income'].count()) / 8000 )
 
 
 
