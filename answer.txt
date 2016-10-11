@@ -1,49 +1,83 @@
 Part I
 
-1.    The code should be:
-  data = [(row['RECORD_CREATION_DATE'], float(row['LOAN_AMOUNT'])) for row  in reader]
+1.  The code should be:
 
-2.    This was the only way I could get it work:
-  print data[(data.index( max( data, key = lambda (row): row[1] ) ) - 1)][0][0]
+    data = [(row['RECORD_CREATION_DATE'], float(row['LOAN_AMOUNT'])) for row  in reader]
 
-3.    My code works even if the data is not sorted.
+2.  This was the only way I could get it work:
 
-4.
+    print data[(data.index( max( data, key = lambda (row): row[1] ) ) - 1)][0][0]
+
+3.  My code works even if the data is not sorted.
+
+4.  csv.DictReader loads the data without checking for data type in the original csv.  Also, the native Python dictionary is a less complicated data structure than a pandas dataframe.
 
 
 Part II
-5.    The code should be:
+5.  The code should be:
+
     df["entry_recorded"] =  pd.to_datetime(df["RECORD_CREATION_DATE"], format='%d%b%Y:%H:%M:%S.%f')
 
-6.  Does "net" mean "gross"?  I did not see the word "net" anywhere in that data, so I am using "gross".
+6, 7, 8, 9:
+    The code should be:
 
+    def monthly_income_parser(x):
+        month_match = 'Monthly gross income' in str(x)
+        annual_match = 'Annual gross income' in str(x)
+        if month_match:
+            return float(('').join(re.findall('\d+', x )))
+        elif annual_match:
+            return float(('').join(re.findall('\d+', x ))) / 12
+        else:
+            return np.nan
 
+10. Does "net" mean "gross"?  I did not see the word "net" anywhere in that data, so I am using "gross".
+    The code should be:
 
+    df["monthly_income"] =  df["AGENT_NOTES"].apply(monthly_income_parser)
 
-14.   Str methods exclude missing/NA values automatically.
+11. The code should be:
 
-15.
+    df["credit_score"] = df["CREDIT_RANGE"].apply(lambda x: float(re.findall('\d+', x )[0]))
+
+12. The code should be:
+
+    df["debt"] = df["EXISTING_DEBT"].fillna('0').str.replace(',','').apply(lambda x: float(re.findall('\d+', x )[0]))
+
+13. The code should be:
+
+    df["debt"] = df["EXISTING_DEBT"].fillna('0').str.replace(',','').apply(lambda x: float(re.findall('\d+', x )[0]))
+
+14. The code should be:
+
+    grouped_df  =  df.groupby(['OFFICE_LOCATION', 'CREDIT_RANGE']).agg([np.count_nonzero, np.mean])
+
+15. Str methods exclude missing/NA values automatically.
+
+16. Average time: 01:06:50.613875
+    Code I used:
+
     df['time_delta'] = (df['entry_recorded']-df['entry_recorded'].shift()).fillna(0)
-
     print(df['time_delta'].mean())
 
-    01:06:50.613875
-
-16.
+17. 3811 records:
+    Code I used:
 
     df[df['OFFICE_LOCATION'] == 'NORTHERN CALIFORNIA']['RECORD_CREATION_DATE'].count() + df[df['OFFICE_LOCATION'] == 'SOUTHERN CALIFORNIA']['RECORD_CREATION_DATE'].count()
     3811
 
-17.
+18. ~ 48%
+    Code I used:
 
     print( (8000 - df['monthly_income'].count()) / 8000 )
 
-    ~ 48%
+Part III:
 
-18.
+19.  I would use sytax similart to this:
+
     s_cat = s.astype("category", categories=["b","c","d"], ordered=False)
 
-    I would use fillna.
+    I would use fillna for missing numbers.
 
 19.
 
